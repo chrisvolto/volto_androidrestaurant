@@ -6,67 +6,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/productPrev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/dishes_product_image_desc"
+                android:src="@drawable/avatar_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
 
-                <ImageView
-                    android:id="@+id/productPrev_1"
-                    tools:src="@tools:sample/avatars"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/dishes_product_image_desc"
-                    android:src="@drawable/avatar_1" />
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="240dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginLeft="17dp"
+                android:text="@string/product_name"
+                android:textAllCaps="true"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/productPrev"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="196dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/product_description"
+                app:layout_constraintStart_toEndOf="@+id/productPrev"
+                app:layout_constraintTop_toBottomOf="@+id/ingredients" />
 
-                    <TextView
-                        android:id="@+id/dishies_product_field_steak_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/steak_200g" />
+            <TextView
+                android:id="@+id/ingredients"
+                android:layout_width="196dp"
+                android:layout_height="23dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="11dp"
+                android:text="@string/product_ingredients"
+                app:layout_constraintStart_toEndOf="@+id/productPrev"
+                app:layout_constraintTop_toBottomOf="@+id/name" />
 
-                    <TextView
-                        android:id="@+id/dishies_product_field_vanille_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/fleur_de_vanille" />
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="61dp"
+                android:layout_height="69dp"
+                android:layout_marginTop="11dp"
+                android:contentDescription="@string/product_see_more"
+                app:layout_constraintStart_toEndOf="@+id/description"
+                app:layout_constraintTop_toBottomOf="@+id/name"
+                app:srcCompat="@drawable/next" />
 
-                    <TextView
-                        android:id="@+id/dishies_product_field_unknown_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/je_sais_plus_quoi_crire" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
-                    <TextView
-                        android:id="@+id/dishies_product_field_unknown2_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/lorem_ipsum" />
-
-                    <Button
-                        android:id="@+id/button_add_cart_1"
-                        app:backgroundTint="#4CAF50"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/button_add_to_cart" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,4 +27,9 @@ class HomeActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("debug", " destroyed") // log the destroy cycle
+    }
 }

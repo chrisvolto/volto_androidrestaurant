@@ -2,14 +2,18 @@ package fr.isen.volto.androiderestaurant
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.w3c.dom.Text
 
 
 class DishesActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dishes_activity)
@@ -21,6 +25,16 @@ class DishesActivity : AppCompatActivity() {
         val desserts_button = findViewById<Button>(R.id.desserts2)
 
         page_name.text = intent.getStringExtra("page_name")
+
+        var s1: Array<String> = resources.getStringArray(R.array.products_name);
+        var s2: Array<String> = resources.getStringArray(R.array.products_description);
+        var s3: Array<String> = resources.getStringArray(R.array.products_ingredients);
+
+        var recyclerView: RecyclerView = findViewById(R.id.recyclerView);
+
+        var myAdapter: MyAdapter = MyAdapter(s1,s2,s3);
+        recyclerView.adapter = myAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this);
 
         if (page_name.text.toString() == "Les entrées") {
             starter_button.text = "Accueil"
@@ -70,5 +84,10 @@ class DishesActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("debug", " destroyed") // log the destroy cycle
     }
 }

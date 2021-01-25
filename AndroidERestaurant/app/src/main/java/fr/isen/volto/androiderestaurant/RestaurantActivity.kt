@@ -2,6 +2,7 @@ package fr.isen.volto.androiderestaurant
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
@@ -43,5 +44,10 @@ class RestaurantActivity : AppCompatActivity() {
             startActivity(intent);
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("debug", " destroyed") // log the destroy cycle
     }
 }
