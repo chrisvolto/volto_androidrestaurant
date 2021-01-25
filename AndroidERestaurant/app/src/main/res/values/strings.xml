@@ -6,9 +6,24 @@
     <string name="home_help">Appuyer pour accéder au restaurant</string>
     <string name="restaurant_reduction_field_name">Réductions: (Faut pas déconner, c\'est la crise)</string>
     <string name="restaurant_dayproduct_field_desc">(C\'est toujours un exemple)</string>
-    <string name="restaurant_reduction_field_desc">C\'est un exemple, on fait pas du trafic d\'humains</string>
+    <string name="restaurant_reduction_field_desc">(C\'est un exemple, on fait pas du trafic d\'humains)</string>
     <string name="restaurant_reduction_name">Produits du jour:</string>
-    <string name="button_dishes">dishes</string>
-    <string name="button_desserts">desserts</string>
+    <string name="button_dishes">Plats</string>
+    <string name="button_desserts">Dessert</string>
     <string name="disabled_button">Out of stock</string>
+    <string name="steak_200g">Steak 200g</string>
+    <string name="fleur_de_vanille">Fleur de Vanille</string>
+    <string name="je_sais_plus_quoi_crire">Je sais plus quoi écrire</string>
+    <string name="lorem_ipsum">Lorem Ipsum</string>
+    <string name="button_add_to_cart">Ajouter au panier</string>
+    <string name="dishes_product_image_desc">dishes_product_image_desc</string>
+    <string name="dessert_number_label_cart">desserts</string>
+    <string name="plates_number_label_cart">plates</string>
+    <string name="bill_label_cart">$</string>
+    <string name="page_name">page_name</string>
+    <string name="button_go_to_cart">Accéder au panier</string>
+    <string name="dishes_number_cart">2</string>
+    <string name="desserts_number_cart">3</string>
+    <string name="bill_number_cart">50.00</string>
+    <string name="button_restaurant_starter">Entrées</string>
 </resources>
