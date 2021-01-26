@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.w3c.dom.Text
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.gson.Gson
+import org.json.JSONObject
 
 
 class DishesActivity : AppCompatActivity() {
@@ -25,64 +29,95 @@ class DishesActivity : AppCompatActivity() {
         val desserts_button = findViewById<Button>(R.id.desserts2)
 
         page_name.text = intent.getStringExtra("page_name")
-
-        var s1: Array<String> = resources.getStringArray(R.array.products_name);
-        var s2: Array<String> = resources.getStringArray(R.array.products_description);
-        var s3: Array<String> = resources.getStringArray(R.array.products_ingredients);
-
+        //RequestQueue initialized
+        var mRequestQueue = Volley.newRequestQueue(this)
         var recyclerView: RecyclerView = findViewById(R.id.recyclerView);
-
-        var myAdapter: MyAdapter = MyAdapter(s1,s2,s3);
-        recyclerView.adapter = myAdapter
         recyclerView.layoutManager = LinearLayoutManager(this);
 
-        if (page_name.text.toString() == "Les entrées") {
-            starter_button.text = "Accueil"
-            starter_button.setOnClickListener {
-                val intent = Intent(this, RestaurantActivity::class.java);
-                startActivity(intent);
-            }
-        }
-        else
-        {
-            starter_button.setOnClickListener {
-                val intent = Intent(this, DishesActivity::class.java);
-                intent.putExtra("page_name","Les entrées")
-                startActivity(intent);
-            }
-        }
+        //String Request initialized
+        var mStringRequest = object : StringRequest(
+            Request.Method.POST,
+            "http://test.api.catering.bluecodegames.com/menu",
+            Response.Listener
+            {
+                    response ->
+                val datas = Gson().fromJson(JSONObject(response).get("data").toString(), Array<Menu>::class.java)
+                if (page_name.text.toString() == "Les entrées") {
+                    var adapterProductItem: AdapterProductItem = AdapterProductItem(0,datas);
+                    recyclerView.adapter = adapterProductItem
 
-        if (page_name.text.toString() == "Les plats") {
-            dishes_button.text = "Accueil"
-            dishes_button.setOnClickListener {
-                val intent = Intent(this, RestaurantActivity::class.java);
-                startActivity(intent);
-            }
-        }
-        else
-        {
-            dishes_button.setOnClickListener {
-                val intent = Intent(this, DishesActivity::class.java);
-                intent.putExtra("page_name","Les plats")
-                startActivity(intent);
-            }
-        }
+                    starter_button.text = "Accueil"
+                    starter_button.setOnClickListener {
+                        val intent = Intent(this, RestaurantActivity::class.java);
+                        startActivity(intent);
+                    }
+                }
+                else
+                {
+                    starter_button.setOnClickListener {
+                        val intent = Intent(this, DishesActivity::class.java);
+                        intent.putExtra("page_name","Les entrées")
+                        startActivity(intent);
+                    }
+                }
 
-        if (page_name.text.toString() == "Les desserts") {
-            desserts_button.text = "Accueil"
-            desserts_button.setOnClickListener {
-                val intent = Intent(this, RestaurantActivity::class.java);
-                startActivity(intent);
+                if (page_name.text.toString() == "Les plats") {
+                    var adapterProductItem: AdapterProductItem = AdapterProductItem(1,datas);
+                    recyclerView.adapter = adapterProductItem
+
+                    dishes_button.text = "Accueil"
+                    dishes_button.setOnClickListener {
+                        val intent = Intent(this, RestaurantActivity::class.java);
+                        startActivity(intent);
+                    }
+                }
+                else
+                {
+                    dishes_button.setOnClickListener {
+                        val intent = Intent(this, DishesActivity::class.java);
+                        intent.putExtra("page_name","Les plats")
+                        startActivity(intent);
+                    }
+                }
+
+                if (page_name.text.toString() == "Les desserts") {
+                    var adapterProductItem: AdapterProductItem = AdapterProductItem(2,datas);
+                    recyclerView.adapter = adapterProductItem
+
+                    desserts_button.text = "Accueil"
+                    desserts_button.setOnClickListener {
+                        val intent = Intent(this, RestaurantActivity::class.java);
+                        startActivity(intent);
+                    }
+                }
+                else
+                {
+                    desserts_button.setOnClickListener {
+                        val intent = Intent(this, DishesActivity::class.java);
+                        intent.putExtra("page_name","Les desserts")
+                        startActivity(intent);
+                    }
+                }
+                Log.i("test", datas.toString());
+            },
+            Response.ErrorListener
+            {
+                    error ->
+                Log.i("This is the error", "Error :" + error.toString())
             }
-        }
-        else
-        {
-            desserts_button.setOnClickListener {
-                val intent = Intent(this, DishesActivity::class.java);
-                intent.putExtra("page_name","Les desserts")
-                startActivity(intent);
+        ) {
+            override fun getBodyContentType(): String {
+                return "application/json"
             }
+
+            override fun getBody(): ByteArray {
+                val params2 = HashMap<String, String>()
+                params2.put("id_shop","1" )
+                return JSONObject(params2 as Map<*, *>).toString().toByteArray()
+            }
+
         }
+        mRequestQueue!!.add(mStringRequest!!)
 
     }
 

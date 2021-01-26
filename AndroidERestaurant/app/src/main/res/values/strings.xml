@@ -30,37 +30,8 @@
     <string name="product_description">Description</string>
     <string name="product_ingredients">Ingredients</string>
     <string name="product_see_more">product_see_more</string>
-
-    <string-array name="products_name">
-        <item>test1</item>
-        <item>test2</item>
-        <item>test3</item>
-        <item>test4</item>
-        <item>test5</item>
-        <item>test6</item>
-        <item>test7</item>
-        <item>test8</item>
-    </string-array>
-
-    <string-array name="products_description">
-        <item>lorem ipsum</item>
-        <item>lorem ipsum</item>
-        <item>lorem ipsum</item>
-        <item>lorem ipsum</item>
-        <item>lorem ipsum</item>
-        <item>lorem ipsum</item>
-        <item>lorem ipsum</item>
-        <item>lorem ipsum</item>
-    </string-array>
-
-    <string-array name="products_ingredients">
-        <item>lo1rem ipsum</item>
-        <item>li2orem ipsum</item>
-        <item>lor3em ipsum</item>
-        <item>lor4m ipsum</item>
-        <item>lore5m ipsum</item>
-        <item>lorem6 ipsum</item>
-        <item>lorem 7ipsum</item>
-        <item>lorem i8psum</item>
-    </string-array>
+    <string name="description">TextView</string>
+    <string name="detail_btn">Button</string>
+    <string name="product_price_symbol">€</string>
+    <string name="product_price">price</string>
 </resources>
