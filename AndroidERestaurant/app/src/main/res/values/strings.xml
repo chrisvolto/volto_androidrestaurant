@@ -31,7 +31,12 @@
     <string name="product_ingredients">Ingredients</string>
     <string name="product_see_more">product_see_more</string>
     <string name="description">TextView</string>
-    <string name="detail_btn">Button</string>
+    <string name="detail_btn">Total</string>
     <string name="product_price_symbol">€</string>
     <string name="product_price">price</string>
+    <string name="product_quantity">1</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="file">fichier</string>
+    <string name="create_new">new</string>
+    <string name="open">op</string>
 </resources>

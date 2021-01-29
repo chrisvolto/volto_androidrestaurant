@@ -19,7 +19,40 @@ data class Item(
     val images: Array<String>,
     val ingredients: Array<Ingredient>,
     val prices: Array<Price>
-): Serializable
+): Serializable {
+    fun getPrice() = prices[0].price.toDouble()
+    fun getFormattedPrice() = prices[0].price.toString() + "€"
+    fun getFirstPicture() = if (images.isNotEmpty() && images[0].isNotEmpty()) {
+        images[0]
+    } else
+    {
+        null
+    }
+
+    fun getFormattedIngredients() = if (ingredients.isNotEmpty() && ingredients.any(){ it.name_fr.isNotEmpty() }) {
+        var ingredients: String = "";
+        val iIngredients: Iterator<Ingredient> = this.ingredients.iterator()
+        while (iIngredients.hasNext())
+        {
+            ingredients = ingredients.plus(iIngredients.next().name_fr)
+
+            if (iIngredients.hasNext()) {
+                ingredients = ingredients.plus(", ")
+            }
+        }
+        ingredients
+    } else
+    {
+        null
+    }
+
+    fun getAllPictures() = if (images.isNotEmpty() && images.any(){ it.isNotEmpty() }) {
+        images.filter { it.isNotEmpty() }
+    } else
+    {
+        null
+    }
+}
 
 data class Ingredient(
         var id: ULong,
@@ -40,3 +73,10 @@ data class Price(
     var update_date: String,
     var size: String
 ): Serializable
+
+data class Order(
+    var product_category: String,
+    var product_name: String,
+    var product_price: Float,
+    var product_quantity: ULong
+) : Serializable

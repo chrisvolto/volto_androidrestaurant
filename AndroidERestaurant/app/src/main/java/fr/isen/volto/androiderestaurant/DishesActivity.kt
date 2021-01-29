@@ -3,6 +3,8 @@ package fr.isen.volto.androiderestaurant
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -42,9 +44,9 @@ class DishesActivity : AppCompatActivity() {
             {
                     response ->
                 val datas = Gson().fromJson(JSONObject(response).get("data").toString(), Array<Menu>::class.java)
-                if (page_name.text.toString() == "Les entrées") {
-                    var adapterProductItem: AdapterProductItem = AdapterProductItem(0,datas);
-                    recyclerView.adapter = adapterProductItem
+                if (page_name.text.toString() == "Entrées") {
+                    var adapterDishesActivity: AdapterDishesActivity = AdapterDishesActivity(0,datas);
+                    recyclerView.adapter = adapterDishesActivity
 
                     starter_button.text = "Accueil"
                     starter_button.setOnClickListener {
@@ -56,14 +58,14 @@ class DishesActivity : AppCompatActivity() {
                 {
                     starter_button.setOnClickListener {
                         val intent = Intent(this, DishesActivity::class.java);
-                        intent.putExtra("page_name","Les entrées")
+                        intent.putExtra("page_name","Entrées")
                         startActivity(intent);
                     }
                 }
 
-                if (page_name.text.toString() == "Les plats") {
-                    var adapterProductItem: AdapterProductItem = AdapterProductItem(1,datas);
-                    recyclerView.adapter = adapterProductItem
+                if (page_name.text.toString() == "Plats") {
+                    var adapterDishesActivity: AdapterDishesActivity = AdapterDishesActivity(1,datas);
+                    recyclerView.adapter = adapterDishesActivity
 
                     dishes_button.text = "Accueil"
                     dishes_button.setOnClickListener {
@@ -75,14 +77,14 @@ class DishesActivity : AppCompatActivity() {
                 {
                     dishes_button.setOnClickListener {
                         val intent = Intent(this, DishesActivity::class.java);
-                        intent.putExtra("page_name","Les plats")
+                        intent.putExtra("page_name","Plats")
                         startActivity(intent);
                     }
                 }
 
-                if (page_name.text.toString() == "Les desserts") {
-                    var adapterProductItem: AdapterProductItem = AdapterProductItem(2,datas);
-                    recyclerView.adapter = adapterProductItem
+                if (page_name.text.toString() == "Desserts") {
+                    var adapterDishesActivity: AdapterDishesActivity = AdapterDishesActivity(2,datas);
+                    recyclerView.adapter = adapterDishesActivity
 
                     desserts_button.text = "Accueil"
                     desserts_button.setOnClickListener {
@@ -94,7 +96,7 @@ class DishesActivity : AppCompatActivity() {
                 {
                     desserts_button.setOnClickListener {
                         val intent = Intent(this, DishesActivity::class.java);
-                        intent.putExtra("page_name","Les desserts")
+                        intent.putExtra("page_name","Desserts")
                         startActivity(intent);
                     }
                 }
@@ -119,6 +121,18 @@ class DishesActivity : AppCompatActivity() {
         }
         mRequestQueue!!.add(mStringRequest!!)
 
+    }
+
+    override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.my_options_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val intent = Intent(this, CartActivity::class.java);
+        startActivity(intent);
+        return true;
     }
 
     override fun onDestroy() {
