@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -23,6 +24,7 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
+import kotlin.math.min
 
 
 class DetailsActivity : AppCompatActivity() {
@@ -133,9 +135,37 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.my_options_menu, menu)
-        return true
+        getMenuInflater().inflate(R.menu.my_options_menu, menu);
+
+        var orders:Array<Order> = try {
+            Gson().fromJson(FileReader(this.filesDir.toString() + "/" + "cart_informations.json"), Array<Order>::class.java)
+        }catch (e: Exception)
+        {
+            emptyArray()
+        }
+        var n:Int = orders.size;
+
+        var menuItem: MenuItem? = menu?.findItem(R.id.action_cart)
+        if( menuItem != null) {
+            val actionView: View = menuItem.actionView
+            val textCartItemCount = actionView.findViewById<View>(R.id.cart_badge) as TextView
+            if (n == 0) {
+                if (textCartItemCount.visibility != View.GONE) {
+                    textCartItemCount.visibility = View.GONE;
+                }
+            } else {
+                textCartItemCount.text = min(n, 99).toString();
+                if (textCartItemCount.visibility != View.VISIBLE) {
+                    textCartItemCount.visibility = View.VISIBLE;
+                }
+            }
+            actionView.setOnClickListener {
+                onOptionsItemSelected(menuItem)
+            }
+            return true
+        }
+
+        return false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

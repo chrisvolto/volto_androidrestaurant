@@ -3,8 +3,8 @@ package fr.isen.volto.androiderestaurant.Dishes
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,10 +16,13 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import fr.isen.volto.androiderestaurant.Cart.CartActivity
-import fr.isen.volto.androiderestaurant.Menu
-import fr.isen.volto.androiderestaurant.R
 import fr.isen.volto.androiderestaurant.Home.RestaurantActivity
+import fr.isen.volto.androiderestaurant.Menu
+import fr.isen.volto.androiderestaurant.Order
+import fr.isen.volto.androiderestaurant.R
 import org.json.JSONObject
+import java.io.FileReader
+import kotlin.math.min
 
 
 class DishesActivity : AppCompatActivity() {
@@ -128,9 +131,37 @@ class DishesActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.my_options_menu, menu)
-        return true
+        getMenuInflater().inflate(R.menu.my_options_menu, menu);
+
+        var orders:Array<Order> = try {
+            Gson().fromJson(FileReader(this.filesDir.toString() + "/" + "cart_informations.json"), Array<Order>::class.java)
+        }catch (e: Exception)
+        {
+            emptyArray()
+        }
+        var n:Int = orders.size;
+
+        var menuItem: MenuItem? = menu?.findItem(R.id.action_cart)
+        if( menuItem != null) {
+            val actionView: View = menuItem.actionView
+            val textCartItemCount = actionView.findViewById<View>(R.id.cart_badge) as TextView
+            if (n == 0) {
+                if (textCartItemCount.visibility != View.GONE) {
+                    textCartItemCount.visibility = View.GONE;
+                }
+            } else {
+                textCartItemCount.text = min(n, 99).toString();
+                if (textCartItemCount.visibility != View.VISIBLE) {
+                    textCartItemCount.visibility = View.VISIBLE;
+                }
+            }
+            actionView.setOnClickListener {
+                onOptionsItemSelected(menuItem)
+            }
+            return true
+        }
+
+        return false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

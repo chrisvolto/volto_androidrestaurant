@@ -60,7 +60,6 @@ public class AdapterCartActivity(val categoryId: Int, val datas: Array<Order>) :
                     .into(holder.imagePreview);
         }*/
 
-
         //holder.productUnitPrice.text =  datas[position].product_price.toString() + "€/u"
         holder.quantity.text = datas[position].product_quantity.toString()
         holder.productPrice.text = "Prix: " + (datas[position].product_price * datas[position].product_quantity.toFloat()).toString() + "€"
