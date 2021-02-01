@@ -2,7 +2,7 @@
     <string name="app_name">AndroidERestaurant</string>
     <string name="uber_mark">Uber</string>
     <string name="droid_mark">Droid</string>
-    <string name="home_desc">UberEat mais il y a des drones comme dans starwars</string>
+    <string name="home_desc">UberEat mais il y a des droids comme dans starwars</string>
     <string name="home_help">Appuyer pour accéder au restaurant</string>
     <string name="restaurant_reduction_field_name">Réductions: (Faut pas déconner, c\'est la crise)</string>
     <string name="restaurant_dayproduct_field_desc">(C\'est toujours un exemple)</string>
