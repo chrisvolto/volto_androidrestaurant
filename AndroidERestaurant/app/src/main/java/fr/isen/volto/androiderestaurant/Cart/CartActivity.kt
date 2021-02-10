@@ -34,7 +34,7 @@ class CartActivity : AppCompatActivity() {
                 binding.anyArticleCart.visibility = View.INVISIBLE
 
                 var recyclerView = binding.recyclerViewCart
-                recyclerView.layoutManager = LinearLayoutManager(this);
+                recyclerView.layoutManager = LinearLayoutManager(this)
                 recyclerView.adapter = AdapterCartActivity(cart) { arr ->
                     cart = arr
                     var total = 0F
@@ -61,9 +61,9 @@ class CartActivity : AppCompatActivity() {
                     val file = File(cacheDir.absolutePath+"/user.json")
                     if (file.exists()) {
                         val intent = Intent(this, OrderActivity::class.java)
-                        intent.putExtra("user", GsonBuilder().create().fromJson(file.readText(), User::class.java));
-                        intent.putExtra("cart", cart);
-                        intent.putExtra("categories", categories);
+                        intent.putExtra("user", GsonBuilder().create().fromJson(file.readText(), User::class.java))
+                        intent.putExtra("cart", cart)
+                        intent.putExtra("categories", categories)
                         startActivity(intent)
                     }
                     else{
@@ -74,9 +74,9 @@ class CartActivity : AppCompatActivity() {
         }
 
         binding.cartHomeCart.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java);
+            val intent = Intent(this, HomeActivity::class.java)
             intent.putExtra("categories", categories)
-            startActivity(intent);
+            startActivity(intent)
         }
     }
 

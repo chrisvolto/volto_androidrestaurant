@@ -103,7 +103,7 @@ class APIManager(private val mReqQueue: RequestQueue, val resListener: (data: An
             }
 
         }
-        mReqQueue!!.add(mStringRequest!!)
+        mReqQueue.add(mStringRequest)
     }
 
 }

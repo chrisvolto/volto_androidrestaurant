@@ -14,7 +14,7 @@ import fr.isen.volto.androiderestaurant.R
 import fr.isen.volto.androiderestaurant.databinding.ProductsItemBinding
 
 class ProductsAdapterActivity(private val categoryId: Int, private val datas: Array<Category>) : RecyclerView.Adapter<ProductsAdapterActivity.MyViewHolder>() {
-    private lateinit var context: Context;
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         context = parent.context
@@ -43,7 +43,7 @@ class ProductsAdapterActivity(private val categoryId: Int, private val datas: Ar
                 .centerCrop()
                 .into(holder.imagePreview)
 
-        holder.price.text = datas[categoryId].items[position].prices[0].price.toString();
+        holder.price.text = datas[categoryId].items[position].prices[0].price.toString()
         holder.btnSeeMore.setOnClickListener {
             context.startActivity(Intent(context, DetailsActivity::class.java).putExtra("categories", datas).putExtra("product", datas[categoryId].items[position]))
         }

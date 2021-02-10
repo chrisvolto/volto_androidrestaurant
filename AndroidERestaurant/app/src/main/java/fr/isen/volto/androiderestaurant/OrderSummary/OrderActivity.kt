@@ -28,7 +28,7 @@ import org.json.JSONObject
 import java.io.File
 import java.io.FileReader
 
-public class OrderActivity : AppCompatActivity() {
+class OrderActivity : AppCompatActivity() {
         private lateinit var binding: OrderActivityBinding
         private lateinit var cart: Array<ProductOrder>
 
@@ -46,8 +46,8 @@ public class OrderActivity : AppCompatActivity() {
                         if(cart.isNotEmpty()){
 
                                 var recyclerView = binding.recyclerViewOrder
-                                recyclerView.layoutManager = LinearLayoutManager(this);
-                                recyclerView.adapter = AdapterCartOrder(cart)
+                                recyclerView.layoutManager = LinearLayoutManager(this)
+                            recyclerView.adapter = AdapterCartOrder(cart)
 
                                 var total = 0F
                                 cart.forEach {
@@ -58,9 +58,9 @@ public class OrderActivity : AppCompatActivity() {
                 }
 
                 binding.backHomeOrder.setOnClickListener {
-                        val intent = Intent(this, HomeActivity::class.java);
-                        intent.putExtra("categories", categories)
-                        startActivity(intent);
+                        val intent = Intent(this, HomeActivity::class.java)
+                    intent.putExtra("categories", categories)
+                        startActivity(intent)
                 }
 
                 binding.sendFormOrder.setOnClickListener {
@@ -70,15 +70,15 @@ public class OrderActivity : AppCompatActivity() {
                                 if( it is User)
                                 {
 
-                                        Toast.makeText(this,"Votre commande a été prise en compte.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this,"Votre commande a été prise en compte.", Toast.LENGTH_SHORT).show()
 
-                                        val intent = Intent(this, HomeActivity::class.java);
-                                        intent.putExtra("categories", categories)
-                                        startActivity(intent);
+                                    val intent = Intent(this, HomeActivity::class.java)
+                                    intent.putExtra("categories", categories)
+                                        startActivity(intent)
                                 }else if(it is String){
-                                        Toast.makeText(this,it as String, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
                                 }else{
-                                        Toast.makeText(this,"Une erreur est survenue.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this,"Une erreur est survenue.", Toast.LENGTH_SHORT).show()
                                 }
                         }
 

@@ -70,18 +70,18 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
-        menuInflater.inflate(R.menu.my_options_menu, menu);
+        menuInflater.inflate(R.menu.my_options_menu, menu)
         menu?.findItem(R.id.action_cart)?.let {
             val actionView: View = it.actionView
             val textCartItemCount = actionView.findViewById<View>(R.id.cart_badge) as TextView
             val file = File(cacheDir.absolutePath+"/cart.json")
             if (file.exists() && GsonBuilder().create().fromJson(file.readText(), Array<ProductOrder>::class.java).isNotEmpty()) {
                 val productsNumber = GsonBuilder().create().fromJson(file.readText(), Array<ProductOrder>::class.java).size
-                textCartItemCount.text = min(productsNumber, 99).toString();
-                textCartItemCount.visibility = View.VISIBLE;
+                textCartItemCount.text = min(productsNumber, 99).toString()
+                textCartItemCount.visibility = View.VISIBLE
             }
             else{
-                textCartItemCount.visibility = View.GONE;
+                textCartItemCount.visibility = View.GONE
             }
 
             actionView.setOnClickListener {_ ->
@@ -93,8 +93,8 @@ class ProductsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        startActivity(Intent(this, CartActivity::class.java).putExtra("categories", categories));
-        return true;
+        startActivity(Intent(this, CartActivity::class.java).putExtra("categories", categories))
+        return true
     }
 
     override fun onDestroy() {

@@ -37,17 +37,17 @@ class DetailsActivity : AppCompatActivity() {
         val product = intent.getSerializableExtra("product") as Product
 
         product.getAllPictures()?.let {
-            binding.detailPager.adapter = DetailViewAdapter(this, it);
+            binding.detailPager.adapter = DetailViewAdapter(this, it)
         }
-        binding.productDetailsName.text = product.name_fr;
-        binding.productDetailsIngredients.text = product.getFormattedIngredients();
-        binding.productDetailsSend.text = "TOTAL " + product.getFormattedPrice();
+        binding.productDetailsName.text = product.name_fr
+        binding.productDetailsIngredients.text = product.getFormattedIngredients()
+        binding.productDetailsSend.text = "TOTAL " + product.getFormattedPrice()
 
         binding.addQuantity.setOnClickListener {
             binding.productDetailsQuantity.text.toString().toLong().let {
                 if (it < 99) {
-                    binding.productDetailsQuantity.text = (it + 1L).toString();
-                    binding.productDetailsSend.text = "TOTAL " + product.getPrice()*(it + 1L) + "€";
+                    binding.productDetailsQuantity.text = (it + 1L).toString()
+                    binding.productDetailsSend.text = "TOTAL " + product.getPrice()*(it + 1L) + "€"
                 }
             }
         }
@@ -55,8 +55,8 @@ class DetailsActivity : AppCompatActivity() {
         binding.minusQuantity.setOnClickListener {
             binding.productDetailsQuantity.text.toString().toLong().let {
                 if (it > 1) {
-                    binding.productDetailsQuantity.text = (it - 1L).toString();
-                    binding.productDetailsSend.text = "TOTAL " + product.getPrice()*(it - 1L) + "€";
+                    binding.productDetailsQuantity.text = (it - 1L).toString()
+                    binding.productDetailsSend.text = "TOTAL " + product.getPrice()*(it - 1L) + "€"
                 }
             }
         }
@@ -81,11 +81,11 @@ class DetailsActivity : AppCompatActivity() {
                         else cart = arrayOf(ProductOrder(product,binding.productDetailsQuantity.text.toString().toULong()))
                         file.writeText(GsonBuilder().create().toJson(cart))
 
-                        var intent = Intent(this, ProductsActivity::class.java);
+                        var intent = Intent(this, ProductsActivity::class.java)
                         intent.putExtra("page_name",product.categ_name_fr)
                         intent.putExtra("categories", categories)
-                        startActivity(intent);
-                        Toast.makeText(this,"Article ajouté au panier",Toast.LENGTH_SHORT).show();
+                        startActivity(intent)
+                        Toast.makeText(this,"Article ajouté au panier",Toast.LENGTH_SHORT).show()
                     })
                     .setNegativeButton(android.R.string.no, null)
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -95,18 +95,18 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
-        menuInflater.inflate(R.menu.my_options_menu, menu);
+        menuInflater.inflate(R.menu.my_options_menu, menu)
         menu?.findItem(R.id.action_cart)?.let {
             val actionView: View = it.actionView
             val textCartItemCount = actionView.findViewById<View>(R.id.cart_badge) as TextView
             val file = File(cacheDir.absolutePath+"/cart.json")
             if (file.exists() && GsonBuilder().create().fromJson(file.readText(), Array<ProductOrder>::class.java).isNotEmpty()) {
                 val productsNumber = GsonBuilder().create().fromJson(file.readText(), Array<ProductOrder>::class.java).size
-                textCartItemCount.text = min(productsNumber, 99).toString();
-                textCartItemCount.visibility = View.VISIBLE;
+                textCartItemCount.text = min(productsNumber, 99).toString()
+                textCartItemCount.visibility = View.VISIBLE
             }
             else{
-                textCartItemCount.visibility = View.GONE;
+                textCartItemCount.visibility = View.GONE
             }
 
             actionView.setOnClickListener {_ ->
@@ -118,8 +118,8 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        startActivity(Intent(this, CartActivity::class.java).putExtra("categories", categories));
-        return true;
+        startActivity(Intent(this, CartActivity::class.java).putExtra("categories", categories))
+        return true
     }
 
     override fun onDestroy() {

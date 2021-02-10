@@ -28,37 +28,37 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         categories = intent.getSerializableExtra("categories") as? Array<Category>
 
-        val intent = Intent(this, ProductsActivity::class.java);
+        val intent = Intent(this, ProductsActivity::class.java)
         intent.putExtra("categories", categories)
         binding.startersButtonHome.setOnClickListener {
             intent.putExtra("page_name","Entrées")
-            startActivity(intent);
+            startActivity(intent)
         }
 
         binding.dishesButtonHome.setOnClickListener {
             intent.putExtra("page_name","Plats")
-            startActivity(intent);
+            startActivity(intent)
         }
 
         binding.dessertsButtonHome.setOnClickListener {
             intent.putExtra("page_name","Desserts")
-            startActivity(intent);
+            startActivity(intent)
         }
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
-        menuInflater.inflate(R.menu.my_options_menu, menu);
+        menuInflater.inflate(R.menu.my_options_menu, menu)
         menu?.findItem(R.id.action_cart)?.let {
             val actionView: View = it.actionView
             val textCartItemCount = actionView.findViewById<View>(R.id.cart_badge) as TextView
             val file = File(cacheDir.absolutePath+"/cart.json")
             if (file.exists() && GsonBuilder().create().fromJson(file.readText(), Array<ProductOrder>::class.java).isNotEmpty()) {
                 val productsNumber = GsonBuilder().create().fromJson(file.readText(), Array<ProductOrder>::class.java).size
-                textCartItemCount.text = min(productsNumber, 99).toString();
-                textCartItemCount.visibility = View.VISIBLE;
+                textCartItemCount.text = min(productsNumber, 99).toString()
+                textCartItemCount.visibility = View.VISIBLE
             }
             else{
-                textCartItemCount.visibility = View.GONE;
+                textCartItemCount.visibility = View.GONE
             }
 
             actionView.setOnClickListener {_ ->
@@ -70,8 +70,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        startActivity(Intent(this, CartActivity::class.java).putExtra("categories", categories));
-        return true;
+        startActivity(Intent(this, CartActivity::class.java).putExtra("categories", categories))
+        return true
     }
 
 

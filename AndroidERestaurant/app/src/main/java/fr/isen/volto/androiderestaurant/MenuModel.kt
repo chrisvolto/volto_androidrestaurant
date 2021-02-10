@@ -1,6 +1,6 @@
 package fr.isen.volto.androiderestaurant
 
-import java.io.Serializable;
+import java.io.Serializable
 
 data class User(
         val id: Int,
@@ -47,8 +47,8 @@ data class Product(
         null
     }
 
-    fun getFormattedIngredients() = if (ingredients.isNotEmpty() && ingredients.any(){ it.name_fr.isNotEmpty() }) {
-        var ingredients: String = "";
+    fun getFormattedIngredients() = if (ingredients.isNotEmpty() && ingredients.any { it.name_fr.isNotEmpty() }) {
+        var ingredients: String = ""
         val iIngredients: Iterator<Ingredient> = this.ingredients.iterator()
         while (iIngredients.hasNext())
         {
@@ -64,7 +64,7 @@ data class Product(
         null
     }
 
-    fun getAllPictures() = if (images.isNotEmpty() && images.any(){ it.isNotEmpty() }) {
+    fun getAllPictures() = if (images.isNotEmpty() && images.any { it.isNotEmpty() }) {
         images.filter { it.isNotEmpty() }
     } else
     {

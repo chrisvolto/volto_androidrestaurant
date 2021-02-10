@@ -60,7 +60,7 @@ class IndexActivity : AppCompatActivity() {
                         this.cancel()
                         intent.putExtra("categories", categories)
                         Log.i("intent", "ok")
-                        startActivity(intent);
+                        startActivity(intent)
                     }
                 }
                 else{

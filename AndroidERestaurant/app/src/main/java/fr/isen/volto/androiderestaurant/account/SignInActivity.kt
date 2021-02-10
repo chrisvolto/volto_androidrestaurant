@@ -25,7 +25,7 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 
-public class SignInActivity : AppCompatActivity() {
+class SignInActivity : AppCompatActivity() {
         private lateinit var binding: SigninActivityBinding
         private lateinit var mReqQueue: RequestQueue
         private lateinit var apiManager: APIManager
@@ -43,13 +43,13 @@ public class SignInActivity : AppCompatActivity() {
                                 val file = File(this.cacheDir, "user.json")
                                 file.writeText(GsonBuilder().create().toJson(it))
 
-                                val intent = Intent(this, OrderActivity::class.java);
-                                intent.putExtra("user", it);
-                                startActivity(intent);
+                                val intent = Intent(this, OrderActivity::class.java)
+                            intent.putExtra("user", it)
+                            startActivity(intent)
                         }else if(it is String){
-                                Toast.makeText(this,it as String, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
                         }else{
-                                Toast.makeText(this,"Une erreur est survenue.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this,"Une erreur est survenue.", Toast.LENGTH_SHORT).show()
                         }
                 }
 
@@ -60,8 +60,8 @@ public class SignInActivity : AppCompatActivity() {
                 binding.passwordSignin.error = "Must enter your password"
 
                 binding.switchLoginSignin.setOnClickListener {
-                        val intent = Intent(this, LogInActivity::class.java);
-                        startActivity(intent);
+                        val intent = Intent(this, LogInActivity::class.java)
+                    startActivity(intent)
                 }
 
                 binding.sendFormSignin.setOnClickListener {

@@ -19,8 +19,8 @@ import fr.isen.volto.androiderestaurant.databinding.OrderActivityBinding
 import fr.isen.volto.androiderestaurant.databinding.OrderItemBinding
 import java.io.File
 
-public class AdapterCartOrder(private var datas: Array<ProductOrder>) : RecyclerView.Adapter<AdapterCartOrder.MyViewHolder>() {
-    private lateinit var context: Context;
+class AdapterCartOrder(private var datas: Array<ProductOrder>) : RecyclerView.Adapter<AdapterCartOrder.MyViewHolder>() {
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         context = parent.context

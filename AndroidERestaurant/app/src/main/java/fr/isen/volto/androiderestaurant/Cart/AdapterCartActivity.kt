@@ -16,8 +16,8 @@ import fr.isen.volto.androiderestaurant.R
 import fr.isen.volto.androiderestaurant.databinding.CartProductItemBinding
 import java.io.File
 
-public class AdapterCartActivity(private var datas: Array<ProductOrder>, val callback: (arr: Array<ProductOrder>) -> Unit) : RecyclerView.Adapter<AdapterCartActivity.MyViewHolder>() {
-    private lateinit var context: Context;
+class AdapterCartActivity(private var datas: Array<ProductOrder>, val callback: (arr: Array<ProductOrder>) -> Unit) : RecyclerView.Adapter<AdapterCartActivity.MyViewHolder>() {
+    private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterCartActivity.MyViewHolder {
         context = parent.context
@@ -76,7 +76,7 @@ public class AdapterCartActivity(private var datas: Array<ProductOrder>, val cal
             datas = cartList.toTypedArray()
             callback(datas)
             this.notifyItemRemoved(position)
-            this.notifyItemRangeChanged(position, datas.size);
+            this.notifyItemRangeChanged(position, datas.size)
         }
     }
 

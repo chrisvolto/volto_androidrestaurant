@@ -22,7 +22,7 @@ import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 
-public class LogInActivity : AppCompatActivity() {
+class LogInActivity : AppCompatActivity() {
         private lateinit var binding: LoginActivityBinding
         private lateinit var mReqQueue: RequestQueue
         private lateinit var apiManager: APIManager
@@ -37,11 +37,11 @@ public class LogInActivity : AppCompatActivity() {
                         Log.i("intent", "rep")
                         if( it is User)
                         {
-                                val intent = Intent(this, OrderActivity::class.java);
-                                intent.putExtra("user", it);
-                                startActivity(intent);
+                                val intent = Intent(this, OrderActivity::class.java)
+                            intent.putExtra("user", it)
+                            startActivity(intent)
                         }else{
-                                Toast.makeText(this,"Mauvais indentifiants", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this,"Mauvais indentifiants", Toast.LENGTH_SHORT).show()
                         }
                 }
 
@@ -49,8 +49,8 @@ public class LogInActivity : AppCompatActivity() {
                 binding.passwordLogin.error = "Must enter your password"
 
                 binding.switchCreateLogin.setOnClickListener {
-                        val intent = Intent(this, SignInActivity::class.java);
-                        startActivity(intent);
+                        val intent = Intent(this, SignInActivity::class.java)
+                    startActivity(intent)
                 }
 
                 binding.sendFormLogin.setOnClickListener {
