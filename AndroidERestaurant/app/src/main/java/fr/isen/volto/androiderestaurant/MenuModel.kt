@@ -1,15 +1,33 @@
 package fr.isen.volto.androiderestaurant
 
 import java.io.Serializable;
-import java.util.*
 
-data class Menu(
-    val name_fr: String,
-    val name_en: String,
-    val items: Array<Item>
+data class User(
+        val id: Int,
+        val code: String,
+        val id_shop: Int,
+        val email: String,
+        val firstname: String,
+        val lastname: String,
+        val phone: String,
+        val address: String,
+        val postal_code: String,
+        val birth_date: String,
+        val town: String,
+        val points: Int,
+        val token: String,
+        val gcmtoken: String,
+        val create_date: String,
+        val update_date: String
 ): Serializable
 
-data class Item(
+data class Category(
+    val name_fr: String,
+    val name_en: String,
+    val items: Array<Product>
+): Serializable
+
+data class Product(
     val id: ULong,
     val name_fr: String,
     val name_en: String,
@@ -20,7 +38,7 @@ data class Item(
     val ingredients: Array<Ingredient>,
     val prices: Array<Price>
 ): Serializable {
-    fun getPrice() = prices[0].price.toDouble()
+    fun getPrice() = prices[0].price
     fun getFormattedPrice() = prices[0].price.toString() + "€"
     fun getFirstPicture() = if (images.isNotEmpty() && images[0].isNotEmpty()) {
         images[0]
@@ -74,9 +92,7 @@ data class Price(
     var size: String
 ): Serializable
 
-data class Order(
-    var product_category: String,
-    var product_name: String,
-    var product_price: Float,
-    var product_quantity: ULong
+data class ProductOrder(
+        var product: Product,
+        var quantity: ULong
 ) : Serializable

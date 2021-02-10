@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.isen.volto.androiderestaurant">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -13,16 +14,19 @@
         android:theme="@style/Theme.AndroidERestaurant"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".Index.IndexActivity">
+        <activity android:name=".index.IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Home.RestaurantActivity"></activity>
+        <activity android:name=".home.HomeActivity"></activity>
         <activity android:name=".Cart.CartActivity"></activity>
-        <activity android:name=".Dishes.DishesActivity"></activity>
+        <activity android:name=".account.SignInActivity"></activity>
+        <activity android:name=".OrderSummary.OrderActivity"></activity>
+        <activity android:name=".account.LogInActivity"></activity>
+        <activity android:name=".products.ProductsActivity"></activity>
         <activity android:name=".ProductDetails.DetailsActivity"></activity>
     </application>
 

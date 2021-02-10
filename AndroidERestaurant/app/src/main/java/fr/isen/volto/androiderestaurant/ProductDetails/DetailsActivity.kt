@@ -5,19 +5,17 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import fr.isen.volto.androiderestaurant.*
 import fr.isen.volto.androiderestaurant.Cart.CartActivity
-import fr.isen.volto.androiderestaurant.Dishes.DishesActivity
+import fr.isen.volto.androiderestaurant.databinding.ProductDetailsActivityBinding
+import fr.isen.volto.androiderestaurant.products.ProductsActivity
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedWriter
@@ -28,149 +26,99 @@ import kotlin.math.min
 
 
 class DetailsActivity : AppCompatActivity() {
+    private lateinit var binding: ProductDetailsActivityBinding
+    private var categories: Array<Category>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.product_details_activity)
+        binding = ProductDetailsActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        categories = intent.getSerializableExtra("categories") as? Array<Category>
+        val product = intent.getSerializableExtra("product") as Product
 
-        val dish = intent.getSerializableExtra("dish") as Item
-
-        dish.getAllPictures()?.let {
-            var detailPager: ViewPager2 = findViewById(R.id.detailPager);
-            detailPager.adapter = DetailViewAdapter(this, it);
+        product.getAllPictures()?.let {
+            binding.detailPager.adapter = DetailViewAdapter(this, it);
         }
+        binding.productDetailsName.text = product.name_fr;
+        binding.productDetailsIngredients.text = product.getFormattedIngredients();
+        binding.productDetailsSend.text = "TOTAL " + product.getFormattedPrice();
 
-        val product_name = findViewById<TextView>(R.id.product_details_name)
-        val product_ingredients = findViewById<TextView>(R.id.product_details_ingredients)
-        val product_quantity = findViewById<TextView>(R.id.product_details_quantity)
-        val product_btn_send = findViewById<Button>(R.id.product_details_send)
-        val product_btn_add = findViewById<FloatingActionButton>(R.id.addQuantity)
-        val product_btn_minus = findViewById<FloatingActionButton>(R.id.minusQuantity)
-
-        product_name.text = dish.name_fr;
-        product_ingredients.text = dish.getFormattedIngredients();
-        product_btn_send.text = "TOTAL " + dish.getFormattedPrice();
-
-        product_btn_add.setOnClickListener {
-            val quantity: Long? = product_quantity.text.toString().toLongOrNull()
-            if (quantity != null && quantity < 99) {
-                product_quantity.text = (quantity + 1L).toString();
-                product_btn_send.text = "TOTAL " + dish.getPrice()*(quantity + 1L) + "€";
+        binding.addQuantity.setOnClickListener {
+            binding.productDetailsQuantity.text.toString().toLong().let {
+                if (it < 99) {
+                    binding.productDetailsQuantity.text = (it + 1L).toString();
+                    binding.productDetailsSend.text = "TOTAL " + product.getPrice()*(it + 1L) + "€";
+                }
             }
         }
 
-        product_btn_minus.setOnClickListener {
-            val quantity: Long? = product_quantity.text.toString().toLongOrNull()
-            if (quantity != null && quantity > 1) {
-                product_quantity.text = (quantity - 1L).toString();
-                product_btn_send.text = "TOTAL " + dish.getPrice()*(quantity - 1L) + "€";
+        binding.minusQuantity.setOnClickListener {
+            binding.productDetailsQuantity.text.toString().toLong().let {
+                if (it > 1) {
+                    binding.productDetailsQuantity.text = (it - 1L).toString();
+                    binding.productDetailsSend.text = "TOTAL " + product.getPrice()*(it - 1L) + "€";
+                }
             }
         }
 
-        product_btn_send.setOnClickListener {
-            // Convert JsonObject to String Format
-
+        binding.productDetailsSend.setOnClickListener {
             AlertDialog.Builder(this)
                     .setTitle("Opération sur votre panier")
-                    .setMessage("Ajouter "+ product_quantity.text.toString() + " " + dish.name_fr +" à votre panier ?") // Specifying a listener allows you to take an action before dismissing the dialog.
-                    // The dialog is automatically dismissed when a dialog button is clicked.
-                    .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
-
-                        var  orders: Array<Order> = try {
-                            Gson().fromJson(FileReader(this.filesDir.toString()+"/"+"cart_informations.json"), Array<Order>::class.java)
-                        } catch(e:Exception) {
-                            emptyArray()
-                        }
-
-                        val cartInformations = JSONArray()
-                        var isAlreadyIn = false;
-                        if (orders.isNotEmpty())
-                        {
-                            orders.forEach {
-                                val product_infos: JSONObject  = JSONObject () // Define the File Path and its Name
-                                product_infos.put("product_category",it.product_category)
-                                product_infos.put("product_name",it.product_name)
-                                product_infos.put("product_price",it.product_price)
-                                if(
-                                        dish.categ_name_fr == it.product_category &&
-                                        dish.name_fr == it.product_name &&
-                                        dish.getPrice().toFloat() == it.product_price
-                                ) {
-                                    isAlreadyIn = true
-                                    product_infos.put("product_quantity", it.product_quantity + product_quantity.text.toString().toUInt())
+                    .setMessage("Ajouter "+product.name_fr+"x"+binding.productDetailsQuantity.text.toString()+" à votre panier ?")
+                    .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { _, _ ->
+                        val file = File(cacheDir.absolutePath+"/cart.json")
+                        var cart: Array<ProductOrder>
+                        if (file.exists()){
+                            cart = GsonBuilder().create().fromJson(file.readText(), Array<ProductOrder>::class.java)
+                            cart.firstOrNull { it.product.name_fr == product.name_fr }
+                                ?.let {
+                                    it.quantity += binding.productDetailsQuantity.text.toString().toULong()
                                 }
-                                else
-                                    product_infos.put("product_quantity", it.product_quantity)
-                                cartInformations.put(product_infos)
-                            }
+                                ?: run {
+                                    cart = cart.plus(ProductOrder(product,binding.productDetailsQuantity.text.toString().toULong()))
+                                }
                         }
+                        else cart = arrayOf(ProductOrder(product,binding.productDetailsQuantity.text.toString().toULong()))
+                        file.writeText(GsonBuilder().create().toJson(cart))
 
-                        if(!isAlreadyIn)
-                        {
-                            val product_infos: JSONObject  = JSONObject () // Define the File Path and its Name
-                            product_infos.put("product_category",dish.categ_name_fr)
-                            product_infos.put("product_name",dish.name_fr)
-                            product_infos.put("product_price",dish.getPrice())
-                            product_infos.put("product_quantity", product_quantity.text.toString().toLongOrNull())
-                            cartInformations.put(product_infos)
-                        }
-
-                        val file = File(this.filesDir, "cart_informations.json")
-                        Log.i("path",this.filesDir.toString())
-                        val fileWriter = FileWriter(file,false)
-                        val bufferedWriter = BufferedWriter(fileWriter)
-                        bufferedWriter.write(cartInformations.toString())
-                        bufferedWriter.close()
-
-                        var intent = Intent(this, DishesActivity::class.java);
-                        intent.putExtra("page_name",dish.categ_name_fr)
+                        var intent = Intent(this, ProductsActivity::class.java);
+                        intent.putExtra("page_name",product.categ_name_fr)
+                        intent.putExtra("categories", categories)
                         startActivity(intent);
                         Toast.makeText(this,"Article ajouté au panier",Toast.LENGTH_SHORT).show();
-                    }) // A null listener allows the button to dismiss the dialog and take no further action.
+                    })
                     .setNegativeButton(android.R.string.no, null)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show()
-
         }
 
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
-        getMenuInflater().inflate(R.menu.my_options_menu, menu);
-
-        var orders:Array<Order> = try {
-            Gson().fromJson(FileReader(this.filesDir.toString() + "/" + "cart_informations.json"), Array<Order>::class.java)
-        }catch (e: Exception)
-        {
-            emptyArray()
-        }
-        var n:Int = orders.size;
-
-        var menuItem: MenuItem? = menu?.findItem(R.id.action_cart)
-        if( menuItem != null) {
-            val actionView: View = menuItem.actionView
+        menuInflater.inflate(R.menu.my_options_menu, menu);
+        menu?.findItem(R.id.action_cart)?.let {
+            val actionView: View = it.actionView
             val textCartItemCount = actionView.findViewById<View>(R.id.cart_badge) as TextView
-            if (n == 0) {
-                if (textCartItemCount.visibility != View.GONE) {
-                    textCartItemCount.visibility = View.GONE;
-                }
-            } else {
-                textCartItemCount.text = min(n, 99).toString();
-                if (textCartItemCount.visibility != View.VISIBLE) {
-                    textCartItemCount.visibility = View.VISIBLE;
-                }
+            val file = File(cacheDir.absolutePath+"/cart.json")
+            if (file.exists() && GsonBuilder().create().fromJson(file.readText(), Array<ProductOrder>::class.java).isNotEmpty()) {
+                val productsNumber = GsonBuilder().create().fromJson(file.readText(), Array<ProductOrder>::class.java).size
+                textCartItemCount.text = min(productsNumber, 99).toString();
+                textCartItemCount.visibility = View.VISIBLE;
             }
-            actionView.setOnClickListener {
-                onOptionsItemSelected(menuItem)
+            else{
+                textCartItemCount.visibility = View.GONE;
             }
-            return true
+
+            actionView.setOnClickListener {_ ->
+                onOptionsItemSelected(it)
+            }
         }
 
-        return false
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intent = Intent(this, CartActivity::class.java);
-        startActivity(intent);
+        startActivity(Intent(this, CartActivity::class.java).putExtra("categories", categories));
         return true;
     }
 

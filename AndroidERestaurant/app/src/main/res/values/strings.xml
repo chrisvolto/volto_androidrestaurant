@@ -39,4 +39,8 @@
     <string name="file">fichier</string>
     <string name="create_new">new</string>
     <string name="open">op</string>
+    <string name="waitingPhrase">Les cachalots dorment debout</string>
+    <string name="labelInternetError_index">Vérifiez votre connexion Internet</string>
+    <string name="scoreCitationContent_home">`` The most wonderful application I have ever seen.``</string>
+    <string name="scoreCitationAuthor_home">Melon Musk - 2021</string>
 </resources>
